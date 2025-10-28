@@ -5,7 +5,7 @@
   background: #c2c2c2;
   padding: 1rem 2rem;
   border-radius: 0.25rem;
-  width: 40rem;
+  width: 50rem;
   margin: 0 auto;
 
   &Field {
@@ -21,7 +21,24 @@
 
     &Input {
       width: 10rem;
-      height: 1.75rem;
+      height: 2rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid #cfcfcf;
+      border-radius: 0.25rem;
+      background: white;
+      box-sizing: border-box;
+      transition: border-color 120ms ease, box-shadow 120ms ease;
+
+      &:focus {
+        outline: none;
+        border-color: #999;
+        box-shadow: 0 0 0 3px rgba(150, 150, 150, 0.06);
+      }
+    }
+
+    &Select {
+      width: 10rem;
+      height: 2rem;
       padding: 0.5rem 1rem;
       border: 1px solid #cfcfcf;
       border-radius: 0.25rem;
@@ -53,7 +70,7 @@
   }
 }
 
-@media (max-width: 740px) {
+@media (max-width: 900px) {
   .AddCountryForm {
     flex-direction: column;
     width: 15rem;

@@ -30,7 +30,7 @@ export const ADD_COUNTRY = gql`
   }
 `;
 
-const GET_COUNTRY = gql`
+export const GET_COUNTRY = gql`
   query GetCountry($code: String!) {
     country(code: $code) {
       id
@@ -41,6 +41,24 @@ const GET_COUNTRY = gql`
         id
         name
       }
+    }
+  }
+`;
+
+export const GET_CONTINENTS = gql`
+  query Continents {
+    continents {
+      id
+      name
+    }
+  }
+`;
+
+export const ADD_CONTINENT = gql`
+  mutation Mutation($data: NewContinentInput!) {
+    addContinent(data: $data) {
+      id
+      name
     }
   }
 `;

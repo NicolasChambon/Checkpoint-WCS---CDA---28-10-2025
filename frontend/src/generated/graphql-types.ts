@@ -94,6 +94,18 @@ export type GetCountryQueryVariables = Exact<{
 
 export type GetCountryQuery = { __typename?: 'Query', country: { __typename?: 'Country', id: number, code: string, name: string, emoji: string, continent?: { __typename?: 'Continent', id: number, name: string } | null } };
 
+export type ContinentsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ContinentsQuery = { __typename?: 'Query', continents: Array<{ __typename?: 'Continent', id: number, name: string }> };
+
+export type MutationMutationVariables = Exact<{
+  data: NewContinentInput;
+}>;
+
+
+export type MutationMutation = { __typename?: 'Mutation', addContinent: { __typename?: 'Continent', id: number, name: string } };
+
 
 export const GetAllCountriesDocument = gql`
     query GetAllCountries {
@@ -228,3 +240,77 @@ export type GetCountryQueryHookResult = ReturnType<typeof useGetCountryQuery>;
 export type GetCountryLazyQueryHookResult = ReturnType<typeof useGetCountryLazyQuery>;
 export type GetCountrySuspenseQueryHookResult = ReturnType<typeof useGetCountrySuspenseQuery>;
 export type GetCountryQueryResult = Apollo.QueryResult<GetCountryQuery, GetCountryQueryVariables>;
+export const ContinentsDocument = gql`
+    query Continents {
+  continents {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useContinentsQuery__
+ *
+ * To run a query within a React component, call `useContinentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useContinentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useContinentsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useContinentsQuery(baseOptions?: Apollo.QueryHookOptions<ContinentsQuery, ContinentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ContinentsQuery, ContinentsQueryVariables>(ContinentsDocument, options);
+      }
+export function useContinentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ContinentsQuery, ContinentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ContinentsQuery, ContinentsQueryVariables>(ContinentsDocument, options);
+        }
+export function useContinentsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<ContinentsQuery, ContinentsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<ContinentsQuery, ContinentsQueryVariables>(ContinentsDocument, options);
+        }
+export type ContinentsQueryHookResult = ReturnType<typeof useContinentsQuery>;
+export type ContinentsLazyQueryHookResult = ReturnType<typeof useContinentsLazyQuery>;
+export type ContinentsSuspenseQueryHookResult = ReturnType<typeof useContinentsSuspenseQuery>;
+export type ContinentsQueryResult = Apollo.QueryResult<ContinentsQuery, ContinentsQueryVariables>;
+export const MutationDocument = gql`
+    mutation Mutation($data: NewContinentInput!) {
+  addContinent(data: $data) {
+    id
+    name
+  }
+}
+    `;
+export type MutationMutationFn = Apollo.MutationFunction<MutationMutation, MutationMutationVariables>;
+
+/**
+ * __useMutationMutation__
+ *
+ * To run a mutation, you first call `useMutationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useMutationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [mutationMutation, { data, loading, error }] = useMutationMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useMutationMutation(baseOptions?: Apollo.MutationHookOptions<MutationMutation, MutationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<MutationMutation, MutationMutationVariables>(MutationDocument, options);
+      }
+export type MutationMutationHookResult = ReturnType<typeof useMutationMutation>;
+export type MutationMutationResult = Apollo.MutationResult<MutationMutation>;
+export type MutationMutationOptions = Apollo.BaseMutationOptions<MutationMutation, MutationMutationVariables>;

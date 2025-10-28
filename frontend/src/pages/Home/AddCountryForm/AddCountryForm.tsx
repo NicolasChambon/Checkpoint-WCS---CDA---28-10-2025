@@ -3,12 +3,14 @@ import styles from "./AddCountryForm.module.scss";
 import {
   useAddCountryMutation,
   GetAllCountriesDocument,
+  useContinentsQuery,
 } from "../../../generated/graphql-types";
 
 interface AddCountryFormData {
   name: string;
   emoji: string;
   code: string;
+  continentId: string;
 }
 
 const AddCountryForm: React.FC = () => {
@@ -16,10 +18,13 @@ const AddCountryForm: React.FC = () => {
     name: "",
     emoji: "",
     code: "",
+    continentId: "",
   });
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target as HTMLInputElement | HTMLSelectElement;
     setFormData({
       ...formData,
       [name]: value,
@@ -27,6 +32,8 @@ const AddCountryForm: React.FC = () => {
   };
 
   const [addCountry, { loading }] = useAddCountryMutation();
+  const { data: continentsData, loading: continentsLoading } =
+    useContinentsQuery();
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,6 +51,9 @@ const AddCountryForm: React.FC = () => {
             name: formData.name,
             code: formData.code,
             emoji: formData.emoji,
+            continent: formData.continentId
+              ? { id: parseInt(formData.continentId, 10) }
+              : undefined,
           },
         },
         refetchQueries: [{ query: GetAllCountriesDocument }],
@@ -51,7 +61,7 @@ const AddCountryForm: React.FC = () => {
       });
 
       if (result && result.data) {
-        setFormData({ name: "", emoji: "", code: "" });
+        setFormData({ name: "", emoji: "", code: "", continentId: "" });
       }
     } catch (err) {
       // TODO : toast
@@ -89,6 +99,34 @@ const AddCountryForm: React.FC = () => {
           value={formData.emoji}
           onChange={handleInputChange}
         />
+      </div>
+
+      <div className={styles.AddCountryFormField}>
+        <label
+          className={styles.AddCountryFormFieldLabel}
+          htmlFor="continentId"
+        >
+          Continent
+        </label>
+        <select
+          className={styles.AddCountryFormFieldInput}
+          id="continentId"
+          name="continentId"
+          value={formData.continentId}
+          onChange={handleInputChange}
+        >
+          <option value="">— None —</option>
+          {continentsLoading && !continentsData && (
+            <option value="" disabled>
+              Loading...
+            </option>
+          )}
+          {continentsData?.continents.map((continent) => (
+            <option key={continent.id} value={String(continent.id)}>
+              {continent.name}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className={styles.AddCountryFormField}>
