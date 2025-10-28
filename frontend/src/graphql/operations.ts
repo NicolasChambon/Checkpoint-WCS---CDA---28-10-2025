@@ -29,3 +29,18 @@ export const ADD_COUNTRY = gql`
     }
   }
 `;
+
+const GET_COUNTRY = gql`
+  query GetCountry($code: String!) {
+    country(code: $code) {
+      id
+      code
+      name
+      emoji
+      continent {
+        id
+        name
+      }
+    }
+  }
+`;
