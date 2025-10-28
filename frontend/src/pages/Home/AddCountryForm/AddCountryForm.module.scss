@@ -1,0 +1,71 @@
+.AddCountryForm {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #c2c2c2;
+  padding: 1rem 2rem;
+  border-radius: 0.25rem;
+
+  &Field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    &Label {
+      font-family: sans-serif;
+      font-size: 0.8rem;
+      color: black;
+    }
+
+    &Input {
+      width: 140px;
+      height: 1.75rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid #cfcfcf;
+      border-radius: 0.25rem;
+      background: white;
+      box-sizing: border-box;
+      transition: border-color 120ms ease, box-shadow 120ms ease;
+
+      &:focus {
+        outline: none;
+        border-color: #999;
+        box-shadow: 0 0 0 3px rgba(150, 150, 150, 0.06);
+      }
+    }
+  }
+
+  &Button {
+    margin: 0 auto;
+    background: #ff2d86;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(0.85);
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .AddCountryForm {
+    flex-wrap: wrap;
+    gap: 10px;
+
+    &Field {
+      &Input {
+        width: 100%;
+        max-width: none;
+      }
+    }
+
+    &Button {
+      margin-left: 0;
+      align-self: center;
+    }
+  }
+}

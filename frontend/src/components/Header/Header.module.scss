@@ -1,0 +1,24 @@
+/* Header styles (CSS Module) */
+.Header {
+  background: #ff1f6b;
+  color: #fff;
+  font-family: sans-serif;
+  margin: 0 0 2rem 0;
+  padding: 1.5rem 0rem;
+  text-align: center;
+
+  &Title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+  }
+
+  &Subtitle {
+    color: #fff;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
