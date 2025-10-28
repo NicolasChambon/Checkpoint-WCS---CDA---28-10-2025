@@ -5,6 +5,8 @@
   background: #c2c2c2;
   padding: 1rem 2rem;
   border-radius: 0.25rem;
+  width: 40rem;
+  margin: 0 auto;
 
   &Field {
     display: flex;
@@ -18,7 +20,7 @@
     }
 
     &Input {
-      width: 140px;
+      width: 10rem;
       height: 1.75rem;
       padding: 0.5rem 1rem;
       border: 1px solid #cfcfcf;
@@ -51,21 +53,14 @@
   }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 740px) {
   .AddCountryForm {
-    flex-wrap: wrap;
-    gap: 10px;
-
-    &Field {
-      &Input {
-        width: 100%;
-        max-width: none;
-      }
-    }
+    flex-direction: column;
+    width: 15rem;
 
     &Button {
-      margin-left: 0;
       align-self: center;
+      width: 10rem;
     }
   }
 }

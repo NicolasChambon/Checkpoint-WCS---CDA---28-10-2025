@@ -1,0 +1,20 @@
+.CountriesList {
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 40rem;
+  margin: 0 auto;
+}
+
+@media (max-width: 740px) {
+  .CountriesList {
+    width: 25rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .CountriesList {
+    width: 20rem;
+  }
+}

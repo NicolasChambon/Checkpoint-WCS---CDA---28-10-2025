@@ -1,5 +1,9 @@
 import React, { ChangeEvent, useState } from "react";
 import styles from "./AddCountryForm.module.scss";
+import {
+  useAddCountryMutation,
+  GetAllCountriesDocument,
+} from "../../../generated/graphql-types";
 
 interface AddCountryFormData {
   name: string;
@@ -14,7 +18,7 @@ const AddCountryForm: React.FC = () => {
     code: "",
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -22,22 +26,41 @@ const AddCountryForm: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [addCountry, { loading }] = useAddCountryMutation();
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.name.trim()) {
+    if (formData.name === "" || formData.code === "" || formData.emoji === "") {
       // TODO : toast
-      console.warn("Name is required");
+      console.warn("Please fill all fields");
       return;
     }
 
-    // TODO : appel api
+    try {
+      const result = await addCountry({
+        variables: {
+          data: {
+            name: formData.name,
+            code: formData.code,
+            emoji: formData.emoji,
+          },
+        },
+        refetchQueries: [{ query: GetAllCountriesDocument }],
+        awaitRefetchQueries: true,
+      });
 
-    setFormData({ name: "", emoji: "", code: "" });
+      if (result && result.data) {
+        setFormData({ name: "", emoji: "", code: "" });
+      }
+    } catch (err) {
+      // TODO : toast
+      console.error("Failed to add country", err);
+    }
   };
 
   return (
-    <form className={styles.AddCountryForm} onSubmit={handleSubmit}>
+    <form className={styles.AddCountryForm} onSubmit={handleFormSubmit}>
       <div className={styles.AddCountryFormField}>
         <label className={styles.AddCountryFormFieldLabel} htmlFor="name">
           Name
@@ -49,7 +72,7 @@ const AddCountryForm: React.FC = () => {
           type="text"
           placeholder=""
           value={formData.name}
-          onChange={handleChange}
+          onChange={handleInputChange}
         />
       </div>
 
@@ -64,7 +87,7 @@ const AddCountryForm: React.FC = () => {
           type="text"
           placeholder=""
           value={formData.emoji}
-          onChange={handleChange}
+          onChange={handleInputChange}
         />
       </div>
 
@@ -79,12 +102,16 @@ const AddCountryForm: React.FC = () => {
           type="text"
           placeholder=""
           value={formData.code}
-          onChange={handleChange}
+          onChange={handleInputChange}
         />
       </div>
 
-      <button className={styles.AddCountryFormButton} type="submit">
-        Add
+      <button
+        className={styles.AddCountryFormButton}
+        type="submit"
+        disabled={loading}
+      >
+        {loading ? "Adding..." : "Add"}
       </button>
     </form>
   );
